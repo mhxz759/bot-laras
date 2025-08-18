@@ -1,0 +1,111 @@
+Crie o design e a estrutura de uma fintech moderna chamada ZynBank, com foco em simplicidade, segurança e inovação.
+As cores principais devem ser azul, preto e branco, transmitindo confiança e tecnologia financeira.
+
+O sistema deve ter duas áreas principais:
+
+🔹 Área do Usuário (Cliente):
+
+Cadastro e login seguro.
+
+Dashboard com saldo disponível.
+
+Função de receber pagamentos (com taxa automática de 8%).
+
+Função de solicitar saque manual (taxa de R$2 por saque), que precisa ser aprovado pelo admin.
+
+Histórico detalhado de entradas, saídas e taxas pagas.
+
+Notificações de status do saque (pendente, aprovado, recusado).
+
+🔹 Área do Administrador (Painel Completo):
+
+Visualização de todos os usuários e saldos.
+
+Aprovação ou recusa de saques manualmente.
+
+Relatório de taxas recebidas (saldo do admin cresce com 8% de todas entradas + R$2 fixo por saque).
+
+Gráficos de movimentação financeira.
+
+Configuração de taxas e valores futuros.
+
+Logs de atividade e segurança.
+
+🔹 Estilo e Recursos Extras:
+
+Interface clean e responsiva.
+
+Botões arredondados, sombras suaves e tipografia tecnológica.
+
+Ícones modernos relacionados a bancos digitais.
+
+Integração com imagens de cartões digitais, cofres, gráficos e códigos fluindo para dar um ar futurista.
+
+Efeitos de hover e animações suaves.
+
+O objetivo é que a ZynBank seja uma fintech realista, profissional e com design inovador, transmitindo credibilidade e exclusividade
+
+API E DOCUMENTAÇÃO PARA IMPLEMETAR NO SITE PARA O FUNCIONAMENTO DE GERAR O PIX E VERIFICAR ELE
+
+API: 72cc92adced5e35c1e40b5a04a5e6ef0
+
+DOCUMENTAÇÃO: 📚 Documentação das APIs de Pagamento e Verificação de Pagamento
+
+🧾 Gerar Pagamento
+Para gerar um pagamento via Pix, utilize o endpoint abaixo:
+
+🌐 Endpoint: https://credpix.finance/api/create.php
+🔄 Método: GET
+
+🔗 Parâmetros:
+
+tokenuser (obrigatório): Seu token de usuário que identifica o pagamento.
+valor (obrigatório): O valor do pagamento em reais. Deve ser um valor maior ou igual a 10.
+chatidpagador (obrigatório): O ChatID do usuario que está efetuando PIX no BOT.
+📌 Exemplo de Chamada:
+https://credpix.finance/api/create.php?tokenuser=SEU_TOKEN&valor=10&chatidpagador=CHAT_ID_DO_CLIENTE
+
+📋 Resposta:
+{
+"Status": "success",
+"CopiaeCola": "000201010212...BR5913...",
+"Valor": 1000,
+"IDPagamento": "CPIX_66d1cd6fccc027.73197593"
+}
+
+🔍 Verificar Status do Pagamento
+Para verificar o status de um pagamento, utilize o endpoint abaixo:
+
+🌐 Endpoint: https://credpix.finance/api/verificar.php
+🔄 Método: GET
+
+🔗 Parâmetros:
+
+tokenuser (obrigatório): Seu token de usuário para verificar o pagamento.
+IDPagamento (obrigatório): O ID do pagamento associado ao pagamento.
+📌 Exemplo de Chamada:
+https://credpix.finance/api/verificar.php?tokenuser=SEU_TOKEN&IDPagamento=ID_Pagamento
+
+📋 Resposta:
+{
+"status": "success",
+"payment_status": "Pagamento Aprovado"
+}
+
+{
+"status": "success",
+"payment_status": "Pagamento Expirado"
+}
+
+{
+"status": "success",
+"payment_status": "Aguardando Pagamento"
+}
+
+{
+"status": "error",
+"message": "ID do pagamento inválido ou não relacionado ao tokenuser fornecido."
+}
+
+alias coloque a logo do banco que é essa imagem que to enviando ai
+
