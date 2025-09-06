@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ - IPTV Brasil</title>
+  <meta name="description" content="Encontre respostas para dúvidas comuns sobre nosso serviço IPTV Brasil">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    body { 
+      background: #181818;
+      color: #fff;
+    }
+    .faq-hero {
+      background: #181818;
+      padding: 2.5rem 0 1.5rem 0;
+      text-align: center;
+      border-bottom: 1px solid #232323;
+    }
+    .faq-hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffc107;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+    .faq-hero p {
+      color: #fff;
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+    .faq-search {
+      max-width: 420px;
+      margin: 2rem auto 2.5rem auto;
+      display: flex;
+      align-items: center;
+      background: #232323;
+      border-radius: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+      padding: 0.5rem 1rem;
+    }
+    .faq-search input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.1rem;
+      flex: 1;
+      outline: none;
+      padding: 0.5rem 0.5rem 0.5rem 0.2rem;
+    }
+    .faq-search input::placeholder {
+      color: #bbb;
+      font-style: italic;
+    }
+    .faq-search button {
+      background: linear-gradient(90deg, #ffc107 60%, #ff9800 100%);
+      border: none;
+      color: #181818;
+      border-radius: 2rem;
+      font-weight: 600;
+      padding: 0.5rem 1.5rem;
+      font-size: 1.1rem;
+      margin-left: 0.5rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .faq-search button:hover {
+      background: linear-gradient(90deg, #ff9800 60%, #ffc107 100%);
+      color: #fff;
+    }
+    .faq-section {
+      padding: 2rem 0;
+    }
+    .faq-category {
+      margin-bottom: 3rem;
+    }
+    .faq-category h2 {
+      color: #ffc107;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #ffc107;
+    }
+    .faq-item {
+      background: #232323;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    .faq-question {
+      padding: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    .faq-question:hover {
+      background: #2a2a2a;
+    }
+    .faq-question h3 {
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    .faq-answer {
+      padding: 0 1.2rem 1.2rem 1.2rem;
+      color: #bbb;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .faq-answer p {
+      margin-bottom: 1rem;
+    }
+    .faq-answer p:last-child {
+      margin-bottom: 0;
+    }
+    .faq-toggle {
+      color: #ffc107;
+      font-size: 1.2rem;
+      transition: transform 0.2s;
+    }
+    .faq-item.active .faq-toggle {
+      transform: rotate(180deg);
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+    .faq-answer {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg custom-navbar py-3 fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <span class="fw-bold fs-3 text-warning">IPTV Brasil</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#pricing">Preços</a></li>
+          <li class="nav-item"><a class="nav-link" href="iptv-setup.html">Configuração IPTV</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Lista de Canais</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contato</a></li>
+          <li class="nav-item"><a class="nav-link active" href="faq.html" onclick="window.location.href='faq.html'">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="faq-hero mt-5">
+    <h1>Perguntas Frequentes</h1>
+    <p>Encontre respostas para dúvidas comuns sobre nosso serviço IPTV</p>
+  </div>
+
+  <div class="faq-search">
+    <input type="text" id="faqSearch" placeholder="Buscar perguntas...">
+    <button type="button" onclick="filterFAQs()"><i class="bi bi-search"></i> Buscar</button>
+  </div>
+
+  <div class="faq-section">
+    <div class="container">
+      <!-- Perguntas Gerais -->
+      <div class="faq-category">
+        <h2>Perguntas Gerais</h2>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>O que é IPTV?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>IPTV (Internet Protocol Television) é um serviço que fornece programação televisiva e outros conteúdos de vídeo usando o conjunto de protocolos da Internet através de uma rede comutada por pacotes como a Internet, ao invés de ser entregue através de formatos tradicionais terrestres, satélite e cabo.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>Quais dispositivos são compatíveis?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Nosso serviço IPTV é compatível com uma ampla gama de dispositivos incluindo:</p>
+            <p>- Smart TVs (Samsung, LG, etc.)<br>
+            - Dispositivos Android (celulares, tablets, TV boxes)<br>
+            - Dispositivos iOS (iPhone, iPad)<br>
+            - Fire TV Stick<br>
+            - Boxes MAG<br>
+            - Computadores Windows/Mac<br>
+            - STB Emulator</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assinatura e Pagamento -->
+      <div class="faq-category">
+        <h2>Assinatura e Pagamento</h2>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>Quais planos de assinatura estão disponíveis?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Oferecemos vários planos de assinatura para atender suas necessidades:</p>
+            <p>- Plano de 1 Mês<br>
+            - Plano de 3 Meses<br>
+            - Plano de 6 Meses<br>
+            - Plano de 12 Meses</p>
+            <p>Cada plano inclui acesso a todos os canais e recursos. Planos mais longos oferecem melhor custo-benefício.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>Quais métodos de pagamento vocês aceitam?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Aceitamos vários métodos de pagamento incluindo:</p>
+            <p>- Cartões de Crédito/Débito<br>
+            - PayPal<br>
+            - Transferência Bancária<br>
+            - PIX<br>
+            - Criptomoedas</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suporte Técnico -->
+      <div class="faq-category">
+        <h2>Suporte Técnico</h2>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>Como configurar IPTV no meu dispositivo?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Fornecemos guias de configuração detalhados para todos os dispositivos compatíveis. Visite nossa página <a href="iptv-setup.html">Guia de Configuração</a> para instruções passo a passo específicas para seu dispositivo.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>O que fazer se estiver com travamento/buffering?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Se você estiver enfrentando travamentos, tente estas soluções:</p>
+            <p>1. Verifique a velocidade da sua conexão de internet (mínimo 10Mbps recomendado)<br>
+            2. Reinicie seu dispositivo e roteador<br>
+            3. Tente usar uma conexão cabeada ao invés de WiFi<br>
+            4. Limpe o cache do aplicativo<br>
+            5. Tente um servidor diferente se disponível</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>Como obtenho suporte técnico?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Oferecemos suporte técnico 24/7 através de:</p>
+            <p>- Chat ao vivo no site<br>
+            - WhatsApp: +55 11 99999-9999<br>
+            - Email: suporte@iptvbrasil.com<br>
+            - Central de ajuda online</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conta e Segurança -->
+      <div class="faq-category">
+        <h2>Conta e Segurança</h2>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>Quantos dispositivos posso usar com uma assinatura?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Cada assinatura permite usar o serviço em múltiplos dispositivos, mas recomendamos não usar mais de 2-3 dispositivos simultaneamente para a melhor experiência de streaming.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>Como redefinir minha senha?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Para redefinir sua senha:</p>
+            <p>1. Vá para a página de login<br>
+            2. Clique em "Esqueci a Senha"<br>
+            3. Digite seu endereço de email<br>
+            4. Siga as instruções enviadas para seu email</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>É seguro usar IPTV?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Sim, nosso serviço IPTV Brasil é 100% seguro e confiável. Utilizamos criptografia de ponta e servidores seguros para proteger seus dados e garantir uma experiência de streaming estável.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Canais e Conteúdo -->
+      <div class="faq-category">
+        <h2>Canais e Conteúdo</h2>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>Quantos canais estão inclusos?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Oferecemos mais de 8.000 canais incluindo:</p>
+            <p>- Canais brasileiros em HD e 4K<br>
+            - Canais internacionais<br>
+            - Canais de esportes ao vivo<br>
+            - Filmes e séries on-demand<br>
+            - Canais premium sem anúncios</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <h3>Posso assistir conteúdo on-demand?</h3>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Sim! Nossa biblioteca inclui milhares de filmes e séries on-demand atualizados regularmente com os últimos lançamentos e clássicos do cinema brasileiro e internacional.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer-section bg-black text-light pt-5 pb-3 mt-auto">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-12 col-md-4 col-lg-3">
+          <span class="fw-bold fs-4 text-warning mb-2 d-block">IPTV Brasil</span>
+          <p class="small mb-3">Serviço IPTV premium com milhares de canais e conteúdo on-demand para todos os seus dispositivos.</p>
+          <div class="mb-3">
+            <a href="#" class="footer-social me-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="footer-social me-2"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="footer-social me-2"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="footer-social me-2"><i class="bi bi-youtube"></i></a>
+            <a href="#" class="footer-social"><i class="bi bi-telegram"></i></a>
+          </div>
+          <div class="small text-secondary">&copy; 2024 IPTV Brasil. Todos os direitos reservados.</div>
+        </div>
+        <div class="col-6 col-md-2 col-lg-2">
+          <div class="fw-bold text-light mb-2">Links Rápidos</div>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#" class="footer-link">Canais</a></li>
+            <li><a href="#" class="footer-link">Preços</a></li>
+            <li><a href="#" class="footer-link">Recursos</a></li>
+            <li><a href="#" class="footer-link">Dispositivos</a></li>
+            <li><a href="#" class="footer-link">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3">
+          <div class="fw-bold text-light mb-2">Suporte</div>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#" class="footer-link">Central de Ajuda</a></li>
+            <li><a href="#" class="footer-link">Fale Conosco</a></li>
+            <li><a href="#" class="footer-link">Chat ao Vivo</a></li>
+            <li><a href="#" class="footer-link">Guias de Configuração</a></li>
+            <li><a href="#" class="footer-link">Compatibilidade</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-3 col-lg-4">
+          <div class="fw-bold text-light mb-2">Legal</div>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#" class="footer-link">Termos de Serviço</a></li>
+            <li><a href="#" class="footer-link">Política de Privacidade</a></li>
+            <li><a href="#" class="footer-link">Política de Reembolso</a></li>
+            <li><a href="#" class="footer-link">Direitos Autorais</a></li>
+            <li><a href="#" class="footer-link">Política de Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleFAQ(element) {
+      const faqItem = element.parentElement;
+      faqItem.classList.toggle('active');
+    }
+
+    function filterFAQs() {
+      const input = document.getElementById('faqSearch').value.toLowerCase();
+      const questions = document.querySelectorAll('.faq-question h3');
+      const categories = document.querySelectorAll('.faq-category');
+      
+      questions.forEach(question => {
+        const faqItem = question.closest('.faq-item');
+        const category = faqItem.closest('.faq-category');
+        
+        if (question.textContent.toLowerCase().includes(input)) {
+          faqItem.style.display = '';
+          category.style.display = '';
+        } else {
+          faqItem.style.display = 'none';
+        }
+      });
+
+      // Ocultar categorias vazias
+      categories.forEach(category => {
+        const visibleItems = category.querySelectorAll('.faq-item[style=""]').length;
+        if (visibleItems === 0) {
+          category.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Channel List - IPTV</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    body { 
+      background: #181818;
+      color: #fff;
+    }
+    .channels-hero {
+      background: #181818;
+      padding: 2.5rem 0 1.5rem 0;
+      text-align: center;
+      border-bottom: 1px solid #232323;
+    }
+    .channels-hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffc107;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+    .channels-hero p {
+      color: #fff;
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+    .channels-search {
+      max-width: 420px;
+      margin: 2rem auto 2.5rem auto;
+      display: flex;
+      align-items: center;
+      background: #232323;
+      border-radius: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+      padding: 0.5rem 1rem;
+    }
+    .channels-search input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.1rem;
+      flex: 1;
+      outline: none;
+      padding: 0.5rem 0.5rem 0.5rem 0.2rem;
+    }
+    .channels-search input::placeholder {
+      color: #bbb;
+      font-style: italic;
+    }
+    .channels-search button {
+      background: linear-gradient(90deg, #ffc107 60%, #ff9800 100%);
+      border: none;
+      color: #181818;
+      border-radius: 2rem;
+      font-weight: 600;
+      padding: 0.5rem 1.5rem;
+      font-size: 1.1rem;
+      margin-left: 0.5rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .channels-search button:hover {
+      background: linear-gradient(90deg, #ff9800 60%, #ffc107 100%);
+      color: #fff;
+    }
+    .category-panel {
+      background: #232323;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .category-panel h3 {
+      color: #ffc107;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .category-list {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .category-btn {
+      background: #181818;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 2rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .category-btn:hover, .category-btn.active {
+      background: #ffc107;
+      color: #181818;
+    }
+    .country-panel {
+      background: #232323;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      height: 100%;
+    }
+    .country-panel h3 {
+      color: #ffc107;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .country-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .country-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .country-list::-webkit-scrollbar-track {
+      background: #181818;
+      border-radius: 3px;
+    }
+    .country-list::-webkit-scrollbar-thumb {
+      background: #ffc107;
+      border-radius: 3px;
+    }
+    .country-item {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid #333;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .country-item:hover {
+      background: #2a2a2a;
+    }
+    .country-item.active {
+      background: #2a2a2a;
+      border-left: 3px solid #ffc107;
+    }
+    .country-flag {
+      width: 24px;
+      height: 18px;
+      object-fit: cover;
+      border-radius: 2px;
+      margin-right: 8px;
+    }
+    .channel-list {
+      background: #232323;
+      border-radius: 1rem;
+      overflow: hidden;
+      height: 600px;
+      overflow-y: auto;
+    }
+    .channel-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .channel-list::-webkit-scrollbar-track {
+      background: #181818;
+      border-radius: 3px;
+    }
+    .channel-list::-webkit-scrollbar-thumb {
+      background: #ffc107;
+      border-radius: 3px;
+    }
+    .channel-item {
+      padding: 1rem;
+      border-bottom: 1px solid #333;
+      display: flex;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    .channel-item:last-child {
+      border-bottom: none;
+    }
+    .channel-item:hover {
+      background: #2a2a2a;
+    }
+    .channel-logo {
+      width: 60px;
+      height: 60px;
+      margin-right: 1rem;
+      object-fit: contain;
+      background: #181818;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+    }
+    .channel-info {
+      flex: 1;
+    }
+    .channel-name {
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .channel-category-tag {
+      color: #ffc107;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .channel-quality {
+      background: #ffc107;
+      color: #181818;
+      padding: 0.2rem 0.8rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg custom-navbar py-3 fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <span class="fw-bold fs-3 text-warning">IPTV</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#pricing">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="iptv-setup.html">IPTV Setup</a></li>
+          <li class="nav-item"><a class="nav-link active" href="channels.html">Channels List</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="channels-hero mt-5">
+    <h1>Channel List</h1>
+    <p>Browse through our extensive collection of live TV channels</p>
+  </div>
+
+  <div class="channels-search">
+    <input type="text" id="channelSearch" placeholder="Search channels...">
+    <button type="button" onclick="filterChannels()"><i class="bi bi-search"></i> Search</button>
+  </div>
+
+  <div class="container mb-5">
+    <!-- Category Panel -->
+    <div class="category-panel">
+      <h3>Categories</h3>
+      <div class="category-list">
+        <button class="category-btn active" onclick="filterByCategory('all')">All Channels</button>
+        <button class="category-btn" onclick="filterByCategory('sports')">Sports</button>
+        <button class="category-btn" onclick="filterByCategory('entertainment')">Entertainment</button>
+        <button class="category-btn" onclick="filterByCategory('news')">News</button>
+        <button class="category-btn" onclick="filterByCategory('movies')">Movies</button>
+        <button class="category-btn" onclick="filterByCategory('kids')">Kids</button>
+        <button class="category-btn" onclick="filterByCategory('music')">Music</button>
+        <button class="category-btn" onclick="filterByCategory('documentary')">Documentary</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Country Panel -->
+      <div class="col-lg-3 mb-4">
+        <div class="country-panel">
+          <h3>Countries</h3>
+          <ul class="country-list">
+            <li class="country-item active" onclick="filterByCountry('all')">
+              <img src="https://flagcdn.com/w40/un.png" alt="All Countries" class="country-flag">
+              All Countries
+            </li>
+            <li class="country-item" onclick="filterByCountry('us')">
+              <img src="https://flagcdn.com/w40/us.png" alt="United States" class="country-flag">
+              United States
+            </li>
+            <li class="country-item" onclick="filterByCountry('gb')">
+              <img src="https://flagcdn.com/w40/gb.png" alt="United Kingdom" class="country-flag">
+              United Kingdom
+            </li>
+            <li class="country-item" onclick="filterByCountry('ca')">
+              <img src="https://flagcdn.com/w40/ca.png" alt="Canada" class="country-flag">
+              Canada
+            </li>
+            <li class="country-item" onclick="filterByCountry('fr')">
+              <img src="https://flagcdn.com/w40/fr.png" alt="France" class="country-flag">
+              France
+            </li>
+            <li class="country-item" onclick="filterByCountry('de')">
+              <img src="https://flagcdn.com/w40/de.png" alt="Germany" class="country-flag">
+              Germany
+            </li>
+            <li class="country-item" onclick="filterByCountry('es')">
+              <img src="https://flagcdn.com/w40/es.png" alt="Spain" class="country-flag">
+              Spain
+            </li>
+            <li class="country-item" onclick="filterByCountry('it')">
+              <img src="https://flagcdn.com/w40/it.png" alt="Italy" class="country-flag">
+              Italy
+            </li>
+            <li class="country-item" onclick="filterByCountry('br')">
+              <img src="https://flagcdn.com/w40/br.png" alt="Brazil" class="country-flag">
+              Brazil
+            </li>
+            <li class="country-item" onclick="filterByCountry('in')">
+              <img src="https://flagcdn.com/w40/in.png" alt="India" class="country-flag">
+              India
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Channel List -->
+      <div class="col-lg-9">
+        <div class="channel-list">
+          <!-- All Countries -->
+          <div class="channel-item" data-category="news" data-country="all">
+            <div class="channel-info">
+              <div class="channel-name">BBC World News</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="all">
+            <div class="channel-info">
+              <div class="channel-name">CNN International</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="all">
+            <div class="channel-info">
+              <div class="channel-name">Al Jazeera English</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="all">
+            <div class="channel-info">
+              <div class="channel-name">NHK World</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="all">
+            <div class="channel-info">
+              <div class="channel-name">DW</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="all">
+            <div class="channel-info">
+              <div class="channel-name">France 24</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="all">
+            <div class="channel-info">
+              <div class="channel-name">TRT World</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+
+          <!-- United States -->
+          <div class="channel-item" data-category="entertainment" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">ABC</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">CBS</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">NBC</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">FOX</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">CNN</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">MSNBC</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">ESPN</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">ESPN2</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">HBO</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="documentary" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">Discovery Channel</div>
+              <div class="channel-category-tag">Documentary</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="us">
+            <div class="channel-info">
+              <div class="channel-name">Cartoon Network</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+
+          <!-- United Kingdom -->
+          <div class="channel-item" data-category="entertainment" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">BBC One</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">BBC Two</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">ITV1</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">ITV2</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">Channel 4</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">Channel 5</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">Sky News</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">Sky Sports Main Event</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">BT Sport</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">CBBC</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="gb">
+            <div class="channel-info">
+              <div class="channel-name">CBeebies</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+
+          <!-- Canada -->
+          <div class="channel-item" data-category="entertainment" data-country="ca">
+            <div class="channel-info">
+              <div class="channel-name">CBC</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="ca">
+            <div class="channel-info">
+              <div class="channel-name">CTV</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="ca">
+            <div class="channel-info">
+              <div class="channel-name">Global TV</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="ca">
+            <div class="channel-info">
+              <div class="channel-name">Citytv</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="ca">
+            <div class="channel-info">
+              <div class="channel-name">CP24</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="ca">
+            <div class="channel-info">
+              <div class="channel-name">TSN 1</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="ca">
+            <div class="channel-info">
+              <div class="channel-name">Sportsnet East</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="ca">
+            <div class="channel-info">
+              <div class="channel-name">YTV</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="ca">
+            <div class="channel-info">
+              <div class="channel-name">Teletoon</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+
+          <!-- France -->
+          <div class="channel-item" data-category="entertainment" data-country="fr">
+            <div class="channel-info">
+              <div class="channel-name">TF1</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="fr">
+            <div class="channel-info">
+              <div class="channel-name">France 2</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="fr">
+            <div class="channel-info">
+              <div class="channel-name">France 3</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="fr">
+            <div class="channel-info">
+              <div class="channel-name">M6</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="fr">
+            <div class="channel-info">
+              <div class="channel-name">Canal+</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="fr">
+            <div class="channel-info">
+              <div class="channel-name">BFM TV</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="fr">
+            <div class="channel-info">
+              <div class="channel-name">CNews</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="fr">
+            <div class="channel-info">
+              <div class="channel-name">Gulli</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="fr">
+            <div class="channel-info">
+              <div class="channel-name">beIN Sports France</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+
+          <!-- Germany -->
+          <div class="channel-item" data-category="entertainment" data-country="de">
+            <div class="channel-info">
+              <div class="channel-name">ARD</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="de">
+            <div class="channel-info">
+              <div class="channel-name">ZDF</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="de">
+            <div class="channel-info">
+              <div class="channel-name">RTL</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="de">
+            <div class="channel-info">
+              <div class="channel-name">ProSieben</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="de">
+            <div class="channel-info">
+              <div class="channel-name">Sat.1</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="de">
+            <div class="channel-info">
+              <div class="channel-name">VOX</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="de">
+            <div class="channel-info">
+              <div class="channel-name">Kabel Eins</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="de">
+            <div class="channel-info">
+              <div class="channel-name">Deutsche Welle (DW)</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+
+          <!-- Spain -->
+          <div class="channel-item" data-category="entertainment" data-country="es">
+            <div class="channel-info">
+              <div class="channel-name">La 1 (RTVE)</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="es">
+            <div class="channel-info">
+              <div class="channel-name">Antena 3</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="es">
+            <div class="channel-info">
+              <div class="channel-name">Telecinco</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="es">
+            <div class="channel-info">
+              <div class="channel-name">Cuatro</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="es">
+            <div class="channel-info">
+              <div class="channel-name">La Sexta</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="es">
+            <div class="channel-info">
+              <div class="channel-name">Canal 24 Horas</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="es">
+            <div class="channel-info">
+              <div class="channel-name">Movistar LaLiga</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="es">
+            <div class="channel-info">
+              <div class="channel-name">Clan</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+
+          <!-- Italy -->
+          <div class="channel-item" data-category="entertainment" data-country="it">
+            <div class="channel-info">
+              <div class="channel-name">RAI 1</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="it">
+            <div class="channel-info">
+              <div class="channel-name">RAI 2</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="it">
+            <div class="channel-info">
+              <div class="channel-name">RAI 3</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="it">
+            <div class="channel-info">
+              <div class="channel-name">Canale 5</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="it">
+            <div class="channel-info">
+              <div class="channel-name">Italia 1</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="it">
+            <div class="channel-info">
+              <div class="channel-name">Rete 4</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="it">
+            <div class="channel-info">
+              <div class="channel-name">La7</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="it">
+            <div class="channel-info">
+              <div class="channel-name">Sky TG24</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="it">
+            <div class="channel-info">
+              <div class="channel-name">Mediaset Extra</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="it">
+            <div class="channel-info">
+              <div class="channel-name">TV8</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+
+          <!-- Brazil -->
+          <div class="channel-item" data-category="entertainment" data-country="br">
+            <div class="channel-info">
+              <div class="channel-name">Globo TV</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="br">
+            <div class="channel-info">
+              <div class="channel-name">SBT</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="br">
+            <div class="channel-info">
+              <div class="channel-name">RecordTV</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="br">
+            <div class="channel-info">
+              <div class="channel-name">RedeTV!</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="br">
+            <div class="channel-info">
+              <div class="channel-name">Band</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="br">
+            <div class="channel-info">
+              <div class="channel-name">TV Cultura</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="br">
+            <div class="channel-info">
+              <div class="channel-name">SporTV</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="br">
+            <div class="channel-info">
+              <div class="channel-name">GloboNews</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="br">
+            <div class="channel-info">
+              <div class="channel-name">TV Brasil</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+
+          <!-- India -->
+          <div class="channel-item" data-category="entertainment" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Star Plus</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Zee TV</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Sony TV</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Colors</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">SAB TV</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="entertainment" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">&TV</div>
+              <div class="channel-category-tag">Entertainment</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Aaj Tak</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">India Today</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">NDTV 24x7</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="news" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Republic TV</div>
+              <div class="channel-category-tag">News</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Star Sports 1</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Star Sports Hindi</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="sports" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Sony Ten 1</div>
+              <div class="channel-category-tag">Sports</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Disney Channel India</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Cartoon Network India</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Hungama TV</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+          <div class="channel-item" data-category="kids" data-country="in">
+            <div class="channel-info">
+              <div class="channel-name">Pogo</div>
+              <div class="channel-category-tag">Kids</div>
+            </div>
+            <span class="channel-quality">HD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer-section bg-black text-light pt-5 pb-3 mt-auto">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-12 col-md-4 col-lg-3">
+          <span class="fw-bold fs-4 text-warning mb-2 d-block">IPTV</span>
+          <p class="small mb-3">Premium IPTV service with thousands of channels and on-demand content for all your devices.</p>
+          <div class="mb-3">
+            <a href="#" class="footer-social me-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="footer-social me-2"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="footer-social me-2"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="footer-social me-2"><i class="bi bi-youtube"></i></a>
+            <a href="#" class="footer-social"><i class="bi bi-telegram"></i></a>
+          </div>
+          <div class="small text-secondary">&copy; 2024 IPTV. All rights reserved.</div>
+        </div>
+        <div class="col-6 col-md-2 col-lg-2">
+          <div class="fw-bold text-light mb-2">Quick Links</div>
+          <ul class="list-unstyled footer-links">
+            <li><a href="channels.html" class="footer-link">Channels</a></li>
+            <li><a href="index.html#pricing" class="footer-link">Pricing</a></li>
+            <li><a href="#" class="footer-link">Features</a></li>
+            <li><a href="#" class="footer-link">Devices</a></li>
+            <li><a href="faq.html" class="footer-link">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3">
+          <div class="fw-bold text-light mb-2">Support</div>
+          <ul class="list-unstyled footer-links">
+            <li><a href="contact.html" class="footer-link">Help Center</a></li>
+            <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="contact.html" class="footer-link">Live Chat</a></li>
+            <li><a href="iptv-setup.html" class="footer-link">Setup Guides</a></li>
+            <li><a href="#" class="footer-link">Device Compatibility</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-3 col-lg-4">
+          <div class="fw-bold text-light mb-2">Legal</div>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#" class="footer-link">Terms of Service</a></li>
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link">Refund Policy</a></li>
+            <li><a href="#" class="footer-link">Copyright Notice</a></li>
+            <li><a href="#" class="footer-link">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let currentCategory = 'all';
+    let currentCountry = 'all';
+
+    function filterChannels() {
+      const input = document.getElementById('channelSearch').value.toLowerCase();
+      const channels = document.querySelectorAll('.channel-item');
+      
+      channels.forEach(channel => {
+        const name = channel.querySelector('.channel-name').textContent.toLowerCase();
+        const category = channel.querySelector('.channel-category-tag').textContent.toLowerCase();
+        const channelCategory = channel.dataset.category;
+        const channelCountry = channel.dataset.country;
+        
+        const matchesSearch = name.includes(input) || category.includes(input);
+        const matchesCategory = currentCategory === 'all' || channelCategory === currentCategory;
+        const matchesCountry = currentCountry === 'all' || channelCountry === currentCountry;
+        
+        if (matchesSearch && matchesCategory && matchesCountry) {
+          channel.style.display = '';
+        } else {
+          channel.style.display = 'none';
+        }
+      });
+    }
+
+    function filterByCategory(category) {
+      currentCategory = category;
+      
+      // Update active button
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      filterChannels();
+    }
+
+    function filterByCountry(country) {
+      currentCountry = country;
+      
+      // Update active country
+      document.querySelectorAll('.country-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      filterChannels();
+    }
+  </script>
+</body>
+</html> 

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payment Page - StreamEase IPTV</title>
+  <meta name="description" content="Secure your StreamEase IPTV subscription with complete confidence. Our payment process utilizes advanced encryption, ensuring your money is genuinely safe for all USA & Canada transactions. Experience powerful, stress-free entertainment.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #181818;
+      color: #fff;
+    }
+    .payment-container {
+      max-width: 1100px;
+      margin: 60px auto 40px auto;
+      background: #232323;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.13);
+      padding: 2.5rem 2rem;
+      display: flex;
+      gap: 2.5rem;
+    }
+    .payment-form-section {
+      flex: 2;
+    }
+    .purchase-summary-section {
+      flex: 1;
+      background: #181818;
+      border-radius: 1rem;
+      padding: 2rem 1.5rem;
+      min-width: 320px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+      color: #fff;
+    }
+    .saved-cards {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+    }
+    .card-box {
+      background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+      color: #fff;
+      border-radius: 1rem;
+      padding: 1.2rem 1.5rem;
+      min-width: 260px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+      position: relative;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .card-box.selected {
+      border: 2px solid #ffc107;
+      box-shadow: 0 4px 24px rgba(255,193,7,0.10);
+      transform: translateY(-2px);
+    }
+    .card-box:hover:not(.selected) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .card-box.light {
+      background: linear-gradient(135deg, #232323, #1a1a1a);
+      color: #fff;
+      border: 1px solid #333;
+    }
+    .card-box.paypal {
+      background: linear-gradient(135deg, #003087, #009cde);
+    }
+    .card-box.paypal .card-type {
+      color: #fff;
+    }
+    .card-box.paypal .card-type i {
+      color: #fff;
+    }
+    .card-box.paypal .card-number {
+      color: #fff;
+    }
+    .card-box.paypal .card-holder,
+    .card-box.paypal .card-expiry {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .card-type {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card-type i {
+      color: #ffc107;
+    }
+    .card-number {
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      font-family: 'Courier New', monospace;
+    }
+    .card-holder, .card-expiry {
+      font-size: 0.95rem;
+      color: #bbb;
+    }
+    .card-expiry {
+      position: absolute;
+      right: 1.5rem;
+      bottom: 1.2rem;
+      color: #fff;
+      font-weight: 600;
+    }
+    .form-label {
+      font-weight: 500;
+      color: #ffc107;
+      margin-bottom: 0.5rem;
+    }
+    .form-control, .form-select {
+      border-radius: 0.7rem;
+      background: #2a2a2a;
+      border: 1px solid #333;
+      color: #fff;
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+      transition: all 0.3s ease;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #ffc107;
+      box-shadow: 0 0 0 2px rgba(255,193,7,0.15);
+      background: #2a2a2a;
+      color: #fff;
+    }
+    .form-control.is-invalid {
+      border-color: #dc3545;
+      background-image: none;
+    }
+    .form-control.is-valid {
+      border-color: #198754;
+      background-image: none;
+    }
+    .invalid-feedback {
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    .valid-feedback {
+      color: #198754;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    .form-text {
+      color: #6c757d;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    .btn-primary, .btn-warning {
+      border-radius: 0.7rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.8rem 2.5rem;
+      transition: all 0.3s ease;
+    }
+    .btn-warning {
+      color: #181818;
+      background: #ffc107;
+      border: none;
+    }
+    .btn-warning:hover {
+      background: #ff9800;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .btn-outline-secondary {
+      border-radius: 0.7rem;
+      color: #fff;
+      border-color: #ffc107;
+      padding: 0.8rem 2rem;
+    }
+    .btn-outline-secondary:hover {
+      background: #ffc107;
+      color: #181818;
+      border-color: #ffc107;
+      transform: translateY(-1px);
+    }
+    .form-check-input {
+      background-color: #2a2a2a;
+      border-color: #333;
+    }
+    .form-check-input:checked {
+      background-color: #ffc107;
+      border-color: #ffc107;
+    }
+    .form-check-input:focus {
+      border-color: #ffc107;
+      box-shadow: 0 0 0 0.25rem rgba(255,193,7,0.25);
+    }
+    .form-check-label {
+      color: #bbb;
+    }
+    .input-group-text {
+      background: #2a2a2a;
+      border: 1px solid #333;
+      color: #fff;
+      border-radius: 0.7rem;
+    }
+    .secure-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,193,7,0.1);
+      color: #ffc107;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .secure-badge i {
+      font-size: 1.1rem;
+    }
+    .summary-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      color: #ffc107;
+    }
+    .summary-section {
+      margin-bottom: 1.5rem;
+    }
+    .summary-label {
+      color: #bbb;
+      font-size: 0.98rem;
+    }
+    .summary-value {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #fff;
+    }
+    .summary-discount {
+      background: #ff5252;
+      color: #fff;
+      border-radius: 0.5rem;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+    .summary-total {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #00e676;
+    }
+    .summary-offer {
+      background: #232323;
+      color: #ffc107;
+      border-radius: 0.5rem;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.7rem;
+      display: inline-block;
+    }
+    a.text-primary { color: #ffc107 !important; }
+    a.text-primary:hover { color: #ff9800 !important; }
+    @media (max-width: 900px) {
+      .payment-container {
+        flex-direction: column;
+        padding: 1.5rem 0.5rem;
+      }
+      .purchase-summary-section {
+        min-width: unset;
+        margin-top: 2rem;
+      }
+    }
+    /* Add PayPal specific styles */
+    .btn-paypal {
+      background: #0070ba;
+      color: #fff;
+      border: none;
+      border-radius: 0.7rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-paypal:hover {
+      background: #005ea6;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    
+    .btn-paypal:active {
+      background: #004b8c;
+    }
+    
+    .bi-paypal {
+      font-size: 1.2rem;
+    }
+    .form-control.capitalize {
+      text-transform: capitalize;
+    }
+    .form-control.uppercase {
+      text-transform: uppercase;
+    }
+    .form-control::placeholder {
+      text-transform: none;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg custom-navbar py-3 fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <span class="fw-bold fs-3 text-warning">IPTV</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#pricing">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="iptv-setup.html">IPTV Setup</a></li>
+          <li class="nav-item"><a class="nav-link" href="channels.html">Channels List</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Security & Payment Information Section -->
+  <section class="security-info-section py-5" style="background: #111; margin-top: 0; padding-top: 100px;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h1 class="fw-bold mb-3" style="font-size:clamp(2.2rem, 5vw, 3rem); color:#ffffff; font-family:'Segoe UI', system-ui, -apple-system, sans-serif; letter-spacing:-0.02em;">
+          Your Security. Our Priority. <span style="color:#ffc107;">Every Transaction.</span>
+        </h1>
+        <p class="lead mb-4" style="max-width: 800px; margin: 0 auto; font-size:clamp(1.1rem, 2.5vw, 1.3rem); color:#ffc107; line-height:1.7; font-weight:600;">
+          We Are For The People.
+        </p>
+        <p class="text-light" style="max-width: 900px; margin: 0 auto; font-size:clamp(1rem, 2.2vw, 1.2rem); color:#e8e8e8; line-height:1.6;">
+          At StreamEase IPTV, we don't just stream content; we stream confidence. We understand that payment security is paramount, especially when choosing an online service. That's why we've implemented the highest industry standards to ensure every transaction is genuinely safe and secure for our valued customers in the USA, Canada, and globally. Our objective is to give you full entertainment without any stress.
+        </p>
+      </div>
+
+      <!-- Security Features -->
+      <div class="row g-4 mb-5">
+        <div class="col-12 col-md-6">
+          <div class="security-card h-100" style="background:#1a1a1a; border-radius:1.2rem; padding:2rem; border:1px solid #333; transition:all 0.3s ease;">
+            <div class="security-icon mb-3" style="width:60px; height:60px; background:linear-gradient(135deg, #ffc107 0%, #ffad07 100%); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 25px rgba(255,193,7,0.3);">
+              <i class="bi bi-shield-lock-fill" style="font-size:1.8rem; color:#000;"></i>
+            </div>
+            <h3 class="text-white mb-3" style="font-size:1.4rem; font-weight:600;">100% Genuine & Secure Payments</h3>
+            <p class="text-secondary" style="font-size:1rem; line-height:1.6;">
+              Rest assured, your financial information is protected by state-of-the-art SSL/TLS encryption, creating an impenetrable tunnel for your data. We partner only with reputable, globally recognized payment processors to ensure your money is secure.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="security-card h-100" style="background:#1a1a1a; border-radius:1.2rem; padding:2rem; border:1px solid #333; transition:all 0.3s ease;">
+            <div class="security-icon mb-3" style="width:60px; height:60px; background:linear-gradient(135deg, #ffc107 0%, #ffad07 100%); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 25px rgba(255,193,7,0.3);">
+              <i class="bi bi-credit-card-2-front-fill" style="font-size:1.8rem; color:#000;"></i>
+            </div>
+            <h3 class="text-white mb-3" style="font-size:1.4rem; font-weight:600;">Advanced Encryption Protection</h3>
+            <p class="text-secondary" style="font-size:1rem; line-height:1.6;">
+              We never store your sensitive financial details on our servers, ensuring your money is safe. Your payment information travels through secure, encrypted channels and is processed by industry-leading payment systems.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Steps -->
+      <div class="payment-steps-section">
+        <div class="text-center mb-4">
+          <h3 class="fw-bold mb-3" style="font-size:clamp(1.8rem, 4vw, 2.5rem); color:#ffffff; font-family:'Segoe UI', system-ui, -apple-system, sans-serif;">
+            How to Complete Your <span style="color:#ffc107;">Safe & Simple Payment</span>
+          </h3>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="step-card text-center h-100" style="background:#1a1a1a; border-radius:1rem; padding:1.5rem; border:1px solid #333; transition:all 0.3s ease;">
+              <div class="step-number mb-3" style="width:50px; height:50px; background:#ffc107; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto; color:#000; font-weight:bold; font-size:1.2rem;">1</div>
+              <h5 class="text-white mb-2" style="font-size:1.1rem; font-weight:600;">Confirm Your Ideal Plan</h5>
+              <p class="text-secondary mb-0" style="font-size:0.9rem;">Verify the StreamEase IPTV subscription plan that best suits your entertainment needs, granting access to millions of channels and the latest movies.</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="step-card text-center h-100" style="background:#1a1a1a; border-radius:1rem; padding:1.5rem; border:1px solid #333; transition:all 0.3s ease;">
+              <div class="step-number mb-3" style="width:50px; height:50px; background:#ffc107; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto; color:#000; font-weight:bold; font-size:1.2rem;">2</div>
+              <h5 class="text-white mb-2" style="font-size:1.1rem; font-weight:600;">Choose Your Trusted Method</h5>
+              <p class="text-secondary mb-0" style="font-size:0.9rem;">Select from a range of universally accepted and secure payment options, including major Credit/Debit Cards (Visa, Mastercard, American Express), PayPal, and other secure digital wallets.</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="step-card text-center h-100" style="background:#1a1a1a; border-radius:1rem; padding:1.5rem; border:1px solid #333; transition:all 0.3s ease;">
+              <div class="step-number mb-3" style="width:50px; height:50px; background:#ffc107; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto; color:#000; font-weight:bold; font-size:1.2rem;">3</div>
+              <h5 class="text-white mb-2" style="font-size:1.1rem; font-weight:600;">Enter Details with Confidence</h5>
+              <p class="text-secondary mb-0" style="font-size:0.9rem;">Provide your payment information within our secure, encrypted interface. We never store your sensitive financial details on our servers, ensuring your money is safe.</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="step-card text-center h-100" style="background:#1a1a1a; border-radius:1rem; padding:1.5rem; border:1px solid #333; transition:all 0.3s ease;">
+              <div class="step-number mb-3" style="width:50px; height:50px; background:#ffc107; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto; color:#000; font-weight:bold; font-size:1.2rem;">4</div>
+              <h5 class="text-white mb-2" style="font-size:1.1rem; font-weight:600;">Finalize Your Secure Subscription</h5>
+              <p class="text-secondary mb-0" style="font-size:0.9rem;">Review your order summary and click "Securely Subscribe Now" to complete your transaction with absolute peace of mind. You'll receive instant confirmation for your powerful entertainment experience.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Message -->
+      <div class="text-center mt-5 pt-4">
+        <p class="lead mb-0" style="color:#ffc107; font-size:clamp(1.1rem, 2.5vw, 1.3rem); font-weight:600;">
+          Your money is secure. Your information is private. Your entertainment awaits.<br>
+          <span style="color:#ffffff;">We are for the people, for your stress-free enjoyment.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="payment-container" style="margin-top: 0;">
+    <!-- Payment Form Section -->
+    <div class="payment-form-section">
+      <h2 class="mb-4 fw-bold text-warning">Payment Information</h2>
+      <div class="secure-badge mb-4">
+        <i class="bi bi-shield-lock-fill"></i>
+        <span>Secure Payment - SSL Encrypted</span>
+      </div>
+
+      
+      <form id="paymentForm" class="needs-validation" novalidate>
+        <!-- Personal Information -->
+        <div class="mb-4">
+          <h5 class="text-warning mb-3">Personal Information</h5>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-control capitalize" placeholder="First Name" required pattern="[A-Za-z\s]{2,}" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').replace(/\b\w/g, l => l.toUpperCase())">
+              <div class="invalid-feedback">Please enter a valid first name.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-control capitalize" placeholder="Last Name" required pattern="[A-Za-z\s]{2,}" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').replace(/\b\w/g, l => l.toUpperCase())">
+              <div class="invalid-feedback">Please enter a valid last name.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-control" placeholder="email@example.com" required>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" placeholder="+1 (555) 000-0000" required pattern="[0-9+\s()-]{10,}">
+              <div class="invalid-feedback">Please enter a valid phone number.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Billing Address -->
+        <div class="mb-4">
+          <h5 class="text-warning mb-3">Billing Address</h5>
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Street Address</label>
+              <input type="text" class="form-control capitalize" placeholder="Street Address" required oninput="this.value = this.value.replace(/\b\w/g, l => l.toUpperCase())">
+              <div class="invalid-feedback">Please enter your street address.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">City</label>
+              <input type="text" class="form-control capitalize" placeholder="City" required oninput="this.value = this.value.replace(/\b\w/g, l => l.toUpperCase())">
+              <div class="invalid-feedback">Please enter your city.</div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">State/Province</label>
+              <input type="text" class="form-control uppercase" placeholder="State" required oninput="this.value = this.value.toUpperCase()">
+              <div class="invalid-feedback">Please enter your state.</div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">ZIP/Postal Code</label>
+              <input type="text" class="form-control" placeholder="ZIP" required pattern="[0-9]{5,}">
+              <div class="invalid-feedback">Please enter a valid ZIP code.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Country</label>
+              <select class="form-select" required>
+                <option value="">Select Country</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="UK">United Kingdom</option>
+                <!-- Add more countries as needed -->
+              </select>
+              <div class="invalid-feedback">Please select your country.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="mb-4">
+          <h5 class="text-warning mb-3">Payment Details</h5>
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Name on Card</label>
+              <input type="text" class="form-control capitalize" placeholder="Cardholder Name" required pattern="[A-Za-z\s]{2,}" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').replace(/\b\w/g, l => l.toUpperCase())">
+              <div class="invalid-feedback">Please enter the name as it appears on your card.</div>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Card Number</label>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Card Number" required pattern="[0-9\s]{13,19}" maxlength="19">
+                <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
+              </div>
+              <div class="invalid-feedback">Please enter a valid card number.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Expiry Date</label>
+              <input type="text" class="form-control" placeholder="MM/YY" required pattern="(0[1-9]|1[0-2])\/([0-9]{2})" maxlength="5">
+              <div class="invalid-feedback">Please enter a valid expiry date (MM/YY).</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">CVV</label>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="CVV" required pattern="[0-9]{3,4}" maxlength="4">
+                <span class="input-group-text" data-bs-toggle="tooltip" title="3 or 4 digit security code">
+                  <i class="bi bi-question-circle"></i>
+                </span>
+              </div>
+              <div class="invalid-feedback">Please enter a valid CVV.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" value="" id="authorizeCheck" required>
+          <label class="form-check-label" for="authorizeCheck">
+            I authorize the company to charge my card for the total amount and agree to the <a href="#" class="text-warning">Terms of Service</a>.
+          </label>
+          <div class="invalid-feedback">You must agree to the terms before proceeding.</div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <a href="index.html#pricing" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2"></i>Go Back
+          </a>
+          <button type="submit" class="btn btn-warning">
+            <i class="bi bi-lock-fill me-2"></i>Complete Payment
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- Purchase Summary Section -->
+    <div class="purchase-summary-section">
+      <div class="summary-title">Plan Details</div>
+      <div class="summary-section mb-2">
+        <div class="summary-label">Plan</div>
+        <div class="summary-value" id="planName">Loading...</div>
+        <div class="summary-label">Duration</div>
+        <div class="summary-value mb-2" id="planDuration">Loading...</div>
+      </div>
+      <div class="summary-section mb-2">
+        <div class="d-flex justify-content-between"><span class="summary-label">Plan Price</span><span class="summary-value" id="planPrice">-</span></div>
+        <div class="d-flex justify-content-between"><span class="summary-label">Tax</span><span class="summary-value" id="planTax">-</span></div>
+        <hr style="border-color: #333; margin: 1rem 0;">
+        <div class="d-flex justify-content-between"><span class="summary-label fw-bold" style="font-size: 1.1rem;">Total</span><span class="summary-total" id="planTotal">-</span></div>
+      </div>
+      <div class="summary-offer mb-2" id="planOffer"></div>
+      <div class="plan-features-section mt-3">
+        <div class="fw-bold mb-2" style="color:#ffc107; font-size:1.1rem;">What's Included in Your Plan</div>
+        <ul class="list-unstyled mb-0" id="planFeaturesList"></ul>
+      </div>
+      <div class="summary-label mb-2">Secure payment<br>30 day money back guarantee</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer-section bg-black text-light pt-5 pb-3 mt-auto">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-12 col-md-4 col-lg-3">
+          <span class="fw-bold fs-4 text-warning mb-2 d-block">IPTV</span>
+          <p class="small mb-3">Premium IPTV service with thousands of channels and on-demand content for all your devices.</p>
+          <div class="mb-3">
+            <a href="#" class="footer-social me-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="footer-social me-2"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="footer-social me-2"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="footer-social me-2"><i class="bi bi-youtube"></i></a>
+            <a href="#" class="footer-social"><i class="bi bi-telegram"></i></a>
+          </div>
+          <div class="small text-secondary">&copy; 2024 IPTV. All rights reserved.</div>
+        </div>
+        <div class="col-6 col-md-2 col-lg-2">
+          <div class="fw-bold text-light mb-2">Quick Links</div>
+          <ul class="list-unstyled footer-links">
+            <li><a href="" class="footer-link">Channels</a></li>
+            <li><a href="index.html#pricing" class="footer-link">Pricing</a></li>
+            <li><a href="#" class="footer-link">Features</a></li>
+            <li><a href="#" class="footer-link">Devices</a></li>
+            <li><a href="faq.html" class="footer-link">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3">
+          <div class="fw-bold text-light mb-2">Support</div>
+          <ul class="list-unstyled footer-links">
+            <li><a href="contact.html" class="footer-link">Help Center</a></li>
+            <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="contact.html" class="footer-link">Live Chat</a></li>
+            <li><a href="iptv-setup.html" class="footer-link">Setup Guides</a></li>
+            <li><a href="#" class="footer-link">Device Compatibility</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-3 col-lg-4">
+          <div class="fw-bold text-light mb-2">Legal</div>
+          <ul class="list-unstyled footer-links">
+            <li><a href="#" class="footer-link">Terms of Service</a></li>
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link">Refund Policy</a></li>
+            <li><a href="#" class="footer-link">Copyright Notice</a></li>
+            <li><a href="#" class="footer-link">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Form validation
+    (function () {
+      'use strict'
+      const forms = document.querySelectorAll('.needs-validation')
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })()
+
+    // Card number formatting
+    document.querySelector('input[placeholder="Card Number"]').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      let formattedValue = '';
+      for(let i = 0; i < value.length; i++) {
+        if(i > 0 && i % 4 === 0) {
+          formattedValue += ' ';
+        }
+        formattedValue += value[i];
+      }
+      e.target.value = formattedValue;
+    });
+
+    // Expiry date formatting
+    document.querySelector('input[placeholder="MM/YY"]').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if(value.length >= 2) {
+        value = value.slice(0,2) + '/' + value.slice(2);
+      }
+      e.target.value = value;
+    });
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+    // Plan details from URL - Enhanced Auto-Sync
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+    
+    // Auto-sync with selected plan from pricing page
+    function initializePlanDetails() {
+      console.log('Initializing plan details from URL parameters...');
+      
+      // Check if this is a direct access without plan selection
+      const hasUrlParams = window.location.search.length > 0;
+      if (!hasUrlParams) {
+        // Redirect back to pricing page if no plan selected
+        console.log('No plan selected, redirecting to pricing...');
+        showNoPlanSelectedMessage();
+        return;
+      }
+      
+             // Get parameters from URL
+       const planName = getQueryParam('plan') || '1 Month Premium IPTV';
+       const planDuration = getQueryParam('duration') || '1 Month';
+       const planPrice = getQueryParam('price') || '2900';
+       const planTax = getQueryParam('tax') || '290';
+       const planOffer = getQueryParam('offer') || 'Risk-Free Exploration';
+       const planCurrency = getQueryParam('currency') || 'USD';
+       
+       console.log('Plan Details:', {
+         planName,
+         planDuration,
+         planPrice,
+         planTax,
+         planOffer,
+         planCurrency
+       });
+       
+       // Convert string prices to numbers (they're in cents)
+       const priceNum = parseInt(planPrice);
+       const taxNum = parseInt(planTax);
+       
+       // Calculate total (price + tax only, no discounts)
+       const totalCents = priceNum + taxNum;
+      
+      // Format currency display function
+      function formatCurrency(cents) {
+        const dollars = cents / 100;
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: planCurrency,
+          minimumFractionDigits: 2
+        }).format(dollars);
+      }
+      
+             // Update plan details in the summary
+       document.getElementById('planName').textContent = planName;
+       document.getElementById('planDuration').textContent = planDuration;
+       document.getElementById('planPrice').textContent = formatCurrency(priceNum);
+       document.getElementById('planTax').textContent = formatCurrency(taxNum);
+       document.getElementById('planTotal').textContent = formatCurrency(totalCents);
+       
+       // Handle offer display
+       const offerElement = document.getElementById('planOffer');
+       if (planOffer && planOffer.trim() !== '') {
+         offerElement.textContent = planOffer;
+         offerElement.style.display = 'inline-block';
+       } else {
+         offerElement.style.display = 'none';
+       }
+      
+      // Update page title
+      document.title = `Payment - ${planName} - StreamEase IPTV`;
+      
+      console.log('Plan details successfully synced to payment page');
+    }
+    
+    // Initialize when page loads
+    initializePlanDetails();
+
+    // Plan features mapping
+    const planFeatures = {
+      '1 Month Premium IPTV': [
+        '✔ Millions of Live Channels (Every Language/Country)',
+        '✔ Latest Movies & Expansive On-Demand Library',
+        '✔ Guaranteed Buffer-Free HD/4K',
+        '✔ Multi-Device Compatibility',
+        '✔ 24/7 Priority Live Support',
+        '✔ Secure Payment Processing',
+        '✔ Instant Activation',
+        '✔ TV Guide (EPG) & Catch-up Feature',
+        '✔ Works on All Devices (Smart TV, Android, iOS, PC, Firestick, etc.)',
+        '✔ 30-Day Money Back Guarantee'
+      ],
+      '3 Month Premium IPTV': [
+        '✔ Millions of Live Channels (Every Language/Country)',
+        '✔ Latest Movies & Expansive On-Demand Library',
+        '✔ Guaranteed Buffer-Free HD/4K',
+        '✔ Multi-Device Compatibility',
+        '✔ 24/7 Priority Live Support',
+        '✔ Secure Payment Processing',
+        '✔ Instant Activation',
+        '✔ TV Guide (EPG) & Catch-up Feature',
+        '✔ Works on All Devices (Smart TV, Android, iOS, PC, Firestick, etc.)',
+        '✔ 30-Day Money Back Guarantee'
+      ],
+      '6 Month Premium IPTV': [
+        '✔ Millions of Live Channels (Every Language/Country)',
+        '✔ Latest Movies & Expansive On-Demand Library',
+        '✔ Guaranteed Buffer-Free HD/4K',
+        '✔ Multi-Device Compatibility',
+        '✔ 24/7 Priority Live Support',
+        '✔ Secure Payment Processing',
+        '✔ Instant Activation',
+        '✔ TV Guide (EPG) & Catch-up Feature',
+        '✔ Works on All Devices (Smart TV, Android, iOS, PC, Firestick, etc.)',
+        '✔ 30-Day Money Back Guarantee'
+      ],
+      '12 Month Premium IPTV': [
+        '✔ Millions of Live Channels (Every Language/Country)',
+        '✔ Latest Movies & Expansive On-Demand Library',
+        '✔ Guaranteed Buffer-Free HD/4K',
+        '✔ Multi-Device Compatibility',
+        '✔ 24/7 Priority Live Support',
+        '✔ Secure Payment Processing',
+        '✔ Instant Activation',
+        '✔ TV Guide (EPG) & Catch-up Feature',
+        '✔ Works on All Devices (Smart TV, Android, iOS, PC, Firestick, etc.)',
+        '✔ 30-Day Money Back Guarantee'
+      ]
+    };
+    // Update plan features based on selected plan
+    function updatePlanFeatures() {
+      const planName = getQueryParam('plan') || '1 Month Premium IPTV';
+      console.log('Updating features for plan:', planName);
+      
+      // Get features for the selected plan, fallback to 1 Month if not found
+      const features = planFeatures[planName] || planFeatures['1 Month Premium IPTV'];
+      const featuresList = document.getElementById('planFeaturesList');
+      
+      // Clear existing features
+      featuresList.innerHTML = '';
+      
+      // Add features to the list
+      features.forEach(feature => {
+        const li = document.createElement('li');
+        li.style.marginBottom = '0.5rem';
+        li.style.color = '#e8e8e8';
+        li.style.fontSize = '0.95rem';
+        li.style.lineHeight = '1.4';
+        li.innerHTML = feature;
+        featuresList.appendChild(li);
+      });
+      
+      console.log(`Added ${features.length} features for ${planName}`);
+    }
+    
+    // Update features when page loads
+    updatePlanFeatures();
+    
+    // Function to handle no plan selected case
+    function showNoPlanSelectedMessage() {
+      document.getElementById('planName').innerHTML = '<span style="color: #ffc107;">No Plan Selected</span>';
+      document.getElementById('planDuration').innerHTML = '<a href="index.html#pricing" style="color: #ffc107; text-decoration: underline;">Choose a Plan</a>';
+      document.getElementById('planPrice').textContent = '-';
+      document.getElementById('planTax').textContent = '-';
+      document.getElementById('planTotal').textContent = '-';
+      
+      const offerElement = document.getElementById('planOffer');
+      offerElement.innerHTML = '<i class="bi bi-arrow-left me-2"></i><a href="index.html#pricing" style="color: #ffc107; text-decoration: underline;">Select a Plan First</a>';
+      offerElement.style.display = 'inline-block';
+      
+      const featuresList = document.getElementById('planFeaturesList');
+      featuresList.innerHTML = '<li style="color: #ffc107; font-style: italic;">Please select a plan from our pricing page to view features and complete your purchase.</li>';
+    }
+  </script>
+</body>
+</html> 
